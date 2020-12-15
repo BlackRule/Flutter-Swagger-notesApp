@@ -12,16 +12,13 @@ import 'package:bloc_login/common/common.dart';
 void main() {
   final userRepository = UserRepository();
 
-  runApp(
-      BlocProvider<AuthenticationBloc>(
-        create: (context) {
-          return AuthenticationBloc(
-              userRepository: userRepository
-          )..add(AppStarted());
-        },
-        child: App(userRepository: userRepository),
-      )
-  );
+  runApp(BlocProvider<AuthenticationBloc>(
+    create: (context) {
+      return AuthenticationBloc(userRepository: userRepository)
+        ..add(AppStarted());
+    },
+    child: App(userRepository: userRepository),
+  ));
 }
 
 class App extends StatelessWidget {
@@ -32,7 +29,7 @@ class App extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.red,
@@ -44,10 +41,16 @@ class App extends StatelessWidget {
             return SplashPage();
           }
           if (state is AuthenticationAuthenticated) {
-            return HomePage();
+            return HomePage(
+                items: List<ListItem>.generate(
+              1000,
+              (i) => MessageItem("Sender $i", "Message body $i"),
+            ));
           }
           if (state is AuthenticationUnauthenticated) {
-            return LoginPage(userRepository: userRepository,);
+            return LoginPage(
+              userRepository: userRepository,
+            );
           }
           return LoadingIndicator();
         },
