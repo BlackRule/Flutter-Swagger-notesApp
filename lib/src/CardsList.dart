@@ -14,7 +14,7 @@ class CardsList {
             var li = List<ListItem>.generate(
                 snapshot.data.length,
                 (i) => MessageItem(
-                    "${snapshot.data[i].id}", "${snapshot.data[i].text}"));
+                    "ID: ${snapshot.data[i].id}", "${snapshot.data[i].text}"));
             return ListView.builder(
               itemCount: li.length,
               itemBuilder: (context, index) {
