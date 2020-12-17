@@ -13,16 +13,15 @@ class UserDao {
 
   Future<int> deleteUser(int id) async {
     final db = await dbProvider.database;
-    var result = await db
-        .delete(userTable, where: "id = ?", whereArgs: [id]);
+    var result = await db.delete(userTable, where: "id = ?", whereArgs: [id]);
     return result;
   }
 
   Future<bool> checkUser(int id) async {
     final db = await dbProvider.database;
     try {
-      List<Map> users = await db
-          .query(userTable, where: 'id = ?', whereArgs: [id]);
+      List<Map> users =
+          await db.query(userTable, where: 'id = ?', whereArgs: [id]);
       if (users.length > 0) {
         return true;
       } else {
@@ -30,6 +29,17 @@ class UserDao {
       }
     } catch (error) {
       return false;
+    }
+  }
+
+  Future<String> getUserAuthToken(int id) async {
+    final db = await dbProvider.database;
+    try {
+      List<Map> users =
+          await db.query(userTable, where: 'id = ?', whereArgs: [id]);
+      return users[0]["token"];
+    } catch (error) {
+      return "";
     }
   }
 }

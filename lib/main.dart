@@ -43,9 +43,8 @@ class App extends StatelessWidget {
           if (state is AuthenticationAuthenticated) {
             return HomePage(
                 items: List<ListItem>.generate(
-              1000,
-              (i) => MessageItem("Sender $i", "Message body $i"),
-            ));
+                    1000, (i) => MessageItem("Sender $i", "Message body $i")),
+                userDao: userRepository.userDao);
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(
