@@ -2,7 +2,7 @@ library swagger.api;
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/browser_client.dart';
+// import 'package:http/browser_client.dart';
 import 'package:http/http.dart';
 
 part 'api_client.dart';
@@ -21,6 +21,5 @@ part 'model/card_update_delete.dart';
 part 'model/json_web_token.dart';
 part 'model/refresh_json_web_token.dart';
 part 'model/user.dart';
-
 
 ApiClient defaultApiClient = new ApiClient();

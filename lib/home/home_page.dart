@@ -1,16 +1,15 @@
 import 'package:bloc_login/api_connection/api_connection.dart';
 import 'package:bloc_login/dao/user_dao.dart';
+import 'package:bloc_login/src/CardsList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_login/bloc/authentication_bloc.dart';
+import 'package:swagger/api.dart';
 
 class HomePage extends StatelessWidget {
-  final List<ListItem> items;
-
   UserDao userDao;
 
-  HomePage({Key key, @required this.items, @required this.userDao})
-      : super(key: key);
+  HomePage({Key key, @required this.userDao}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,28 +38,12 @@ class HomePage extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                ListView.builder(
-// Let the ListView know how many items it needs to build.
-                  itemCount: items.length,
-// Provide a builder function. This is where the magic happens.
-// Convert each item into a widget based on the type of item it is.
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-
-                    return ListTile(
-                      title: item.buildTitle(context),
-                      subtitle: item.buildSubtitle(context),
-                    );
-                  },
-                ),
                 FutureBuilder<String>(
                   future: userDao.getUserAuthToken(0),
-// a previously-obtained Future<String> or null
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {
-                      getCards(0, snapshot.data);
-                      return Text(snapshot.data);
+                      return CardsList.getFutureCardList(0, snapshot.data);
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error);
                     } else {
@@ -72,8 +55,57 @@ class HomePage extends StatelessWidget {
                     }
                   },
                 ),
-                Icon(Icons.directions_transit),
-                Icon(Icons.directions_bike),
+                FutureBuilder<String>(
+                  future: userDao.getUserAuthToken(0),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return CardsList.getFutureCardList(1, snapshot.data);
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error);
+                    } else {
+                      return SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 60,
+                        height: 60,
+                      );
+                    }
+                  },
+                ),
+                FutureBuilder<String>(
+                  future: userDao.getUserAuthToken(0),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return CardsList.getFutureCardList(2, snapshot.data);
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error);
+                    } else {
+                      return SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 60,
+                        height: 60,
+                      );
+                    }
+                  },
+                ),
+                FutureBuilder<String>(
+                  future: userDao.getUserAuthToken(0),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return CardsList.getFutureCardList(3, snapshot.data);
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error);
+                    } else {
+                      return SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 60,
+                        height: 60,
+                      );
+                    }
+                  },
+                ),
               ],
             )));
   }

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:bloc_login/model/card_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc_login/model/api_model.dart';
 import 'package:swagger/api.dart';
@@ -28,13 +27,9 @@ Future<Token> getToken(UserLogin userLogin) async {
   }
 }
 
-Future<List<Card>> getCards(int row, String token) async {
-  // swagger.api.Configuration.apiKey{'Authorization'} = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// swagger.api.Configuration.apiKeyPrefix{'Authorization'} = "Bearer";
+Future<List<CardCreateRecieve>> getCards(int row, String token) async {
   var api_instance = new CardsApi();
+  api_instance.apiClient.addDefaultHeader("Authorization", "JWT $token");
   api_instance.apiClient.basePath = _base;
-  api_instance.apiClient.setAccessToken("JWT $token");
-  var l = api_instance.cardsList(row: "0");
-  print(_cardsURL);
+  return api_instance.cardsList(row: "$row");
 }
